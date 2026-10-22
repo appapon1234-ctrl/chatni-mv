@@ -1,0 +1,488 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>แผน MV ชาตินี้</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+Thai:wght@400;500;600&family=Itim&family=Noto+Serif+Thai:wght@600;800&display=swap">
+<style>
+/* Layout: the page is a photobooth strip read top to bottom. Each section is a frame; the hero strip has four frames and the last one is empty, the shot the MV is about. Dark-first: night, moonlight, lighter flame. */
+:root{
+  --bg:#0E1117; --surface:#151A22; --raise:#1B212B; --line:#2A313C;
+  --ink:#ECE6DA; --muted:#98A1AE; --moon:#A9C3E3; --flame:#E9A24F;
+  --paper:#E8DDC8; --paper-ink:#2B2721; --ok:#8FCBA8;
+  --scene-sky1:#1B2C4A; --scene-sky2:#0A111E; --scene-dark:#07090D; --scene-star:#F3EFE6;
+  --scene-door:#313A48; --scene-glow:#E9A24F; --scene-hot:#FFDBA6; --scene-city:#05070C;
+  --f-display:"Noto Serif Thai","Trirong",Georgia,serif;
+  --f-body:"IBM Plex Sans Thai","Noto Sans Thai",system-ui,sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+  --f-hand:"Itim","Mali",cursive;
+  --fs-hero:clamp(3.4rem,10vw,7rem); --fs-h2:clamp(1.55rem,3.4vw,2.3rem); --fs-h3:1.15rem; --fs-sm:.875rem; --fs-xs:.75rem;
+  color-scheme:dark;
+}
+@media (prefers-color-scheme: light){
+  :root:not([data-theme="dark"]){
+    --bg:#EDEFF2; --surface:#FFFFFF; --raise:#F5F6F8; --line:#D3D8E0;
+    --ink:#161A21; --muted:#596271; --moon:#2D5B91; --flame:#AF5F16;
+    --paper:#E4D7BE; --paper-ink:#2B2721; --ok:#2D7A50; color-scheme:light;
+  }
+}
+:root[data-theme="light"]{
+  --bg:#EDEFF2; --surface:#FFFFFF; --raise:#F5F6F8; --line:#D3D8E0;
+  --ink:#161A21; --muted:#596271; --moon:#2D5B91; --flame:#AF5F16;
+  --paper:#E4D7BE; --paper-ink:#2B2721; --ok:#2D7A50; color-scheme:light;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:1rem;line-height:1.75}
+.wrap{max-width:1080px;margin:0 auto;padding-block:40px 72px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:flex;flex-direction:column;gap:72px}
+h1,h2,h3{font-family:var(--f-display);text-wrap:balance;margin:0;line-height:1.3}
+h2{font-size:var(--fs-h2);font-weight:800}
+h3{font-size:var(--fs-h3);font-weight:600}
+p{margin:0;max-width:65ch}
+a{color:var(--moon)}
+a:focus-visible{outline:2px solid var(--flame);outline-offset:3px;border-radius:2px}
+.mono{font-family:var(--f-mono);font-size:var(--fs-xs);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.muted{color:var(--muted)}
+section{display:flex;flex-direction:column;gap:24px}
+.sec-head{display:flex;flex-direction:column;gap:6px;border-top:1px solid var(--line);padding-top:20px}
+.sec-head .mono b{color:var(--flame);font-weight:500}
+.lede{font-size:1.1rem}
+
+/* HERO */
+.hero{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:48px;align-items:center}
+.hero-text{display:flex;flex-direction:column;gap:18px;min-width:0}
+.hero h1{font-size:var(--fs-hero);font-weight:800;line-height:1.05;letter-spacing:-.01em}
+.hero .song{font-family:var(--f-display);font-size:1.25rem;color:var(--moon)}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{font-size:var(--fs-sm);border:1px solid var(--line);border-radius:999px;padding:2px 12px;color:var(--muted)}
+.chip.theme{border-color:var(--flame);color:var(--flame)}
+.tagline{font-family:var(--f-display);font-weight:600;font-size:1.3rem;border-left:2px solid var(--flame);padding-left:14px}
+.strip{background:var(--paper);padding:12px 12px 26px;display:grid;grid-template-columns:150px;gap:8px;box-shadow:0 18px 40px rgba(0,0,0,.35);transform:rotate(1.5deg)}
+.frame{aspect-ratio:4/3;position:relative;overflow:hidden;max-width:100%}
+.frame .n{position:absolute;left:6px;top:4px;font-family:var(--f-mono);font-size:10px;color:var(--scene-star);opacity:.8;z-index:2}
+.f-roof{background:
+  radial-gradient(1.6px 1.6px at 18% 22%,var(--scene-star) 60%,transparent 62%),
+  radial-gradient(1.2px 1.2px at 42% 12%,var(--scene-star) 60%,transparent 62%),
+  radial-gradient(1.4px 1.4px at 66% 28%,var(--scene-star) 60%,transparent 62%),
+  radial-gradient(1px 1px at 84% 14%,var(--scene-star) 60%,transparent 62%),
+  radial-gradient(10px 10px at 78% 30%,var(--scene-star) 55%,transparent 60%),
+  linear-gradient(180deg,var(--scene-sky1),var(--scene-sky2) 75%)}
+.f-roof::after{content:"";position:absolute;inset:auto 0 0 0;height:34%;background:var(--scene-city);clip-path:polygon(0 60%,10% 60%,10% 30%,22% 30%,22% 55%,34% 55%,34% 10%,44% 10%,44% 50%,58% 50%,58% 25%,70% 25%,70% 45%,82% 45%,82% 5%,92% 5%,92% 40%,100% 40%,100% 100%,0 100%)}
+.f-door{background:linear-gradient(180deg,#141924,var(--scene-dark))}
+.f-door::before{content:"";position:absolute;left:30%;right:30%;top:14%;bottom:0;border:2px solid var(--scene-door);border-bottom:0}
+.f-door::after{content:"";position:absolute;left:58%;top:58%;width:5px;height:9px;border-radius:2px;background:var(--scene-glow);box-shadow:0 0 10px 3px rgba(233,162,79,.55)}
+.f-flame{background:radial-gradient(circle at 50% 74%,var(--scene-hot) 0 3%,var(--scene-glow) 5%,rgba(233,162,79,.35) 16%,transparent 44%),var(--scene-dark)}
+.f-empty{border:1.5px dashed var(--paper-ink);display:grid;place-items:center;font-family:var(--f-hand);color:var(--paper-ink);font-size:1.25rem}
+.f-empty .n{color:var(--paper-ink)}
+
+nav.toc{display:flex;flex-wrap:wrap;gap:8px}
+nav.toc a{font-size:var(--fs-sm);text-decoration:none;border:1px solid var(--line);padding:4px 12px;border-radius:999px;color:var(--ink)}
+nav.toc a:hover{border-color:var(--moon);color:var(--moon)}
+
+/* GRIDS */
+.grid{display:grid;gap:16px}
+.g2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.g3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.g5{grid-template-columns:repeat(5,minmax(0,1fr))}
+.card{background:var(--surface);border:1px solid var(--line);padding:18px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.card .mono{color:var(--flame)}
+
+/* KEYWORDS */
+.kw .word{font-family:var(--f-display);font-weight:800;font-size:1.45rem;line-height:1.3}
+.kw q{font-size:var(--fs-sm);color:var(--moon);quotes:"“" "”"}
+.kw .shot{font-size:var(--fs-sm);color:var(--muted);border-top:1px dashed var(--line);padding-top:8px;margin-top:auto}
+
+/* MIND MAP */
+.mind{display:grid;grid-template-columns:auto minmax(0,1fr);gap:20px;align-items:center}
+.mind .core{font-family:var(--f-display);font-weight:800;font-size:1.6rem;border:1.5px solid var(--flame);color:var(--flame);border-radius:50%;width:120px;height:120px;display:grid;place-items:center}
+.branches{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px}
+.branch{border-left:1px solid var(--line);padding-left:12px;display:flex;flex-direction:column;gap:2px;min-width:0}
+.branch b{font-weight:600}
+.branch span{font-size:var(--fs-sm);color:var(--muted)}
+
+/* BEATS TABLE */
+.table-wrap{overflow-x:auto;border:1px solid var(--line)}
+table{border-collapse:collapse;width:100%;min-width:640px;background:var(--surface)}
+th,td{text-align:left;vertical-align:top;padding:12px 14px;border-bottom:1px solid var(--line);font-size:.95rem}
+th{font-family:var(--f-mono);font-size:var(--fs-xs);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:500;background:var(--raise)}
+tr:last-child td{border-bottom:0}
+td .lyric{color:var(--moon)}
+td b{font-weight:600}
+.twist{background:var(--raise);border:1px solid var(--line);border-left:3px solid var(--flame);padding:16px 18px;display:flex;flex-direction:column;gap:6px}
+
+/* CHARACTERS */
+.char .name{font-family:var(--f-display);font-weight:800;font-size:1.5rem}
+.char dl{margin:0;display:grid;grid-template-columns:auto minmax(0,1fr);gap:4px 12px;font-size:var(--fs-sm)}
+.char dt{color:var(--muted)}
+.char dd{margin:0}
+.photo-pair{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:16px;align-items:stretch}
+.old-strip{background:var(--paper);color:var(--paper-ink);padding:16px;display:flex;flex-direction:column;gap:8px}
+.old-strip ol{margin:0;padding-left:1.4em;display:flex;flex-direction:column;gap:6px;font-size:.95rem}
+.old-strip .mono{color:var(--paper-ink);opacity:.7}
+.photo-back{background:var(--paper);color:var(--paper-ink);padding:22px;display:flex;flex-direction:column;justify-content:center;gap:6px;transform:rotate(-1.2deg);box-shadow:0 10px 24px rgba(0,0,0,.25)}
+.photo-back .hand{font-family:var(--f-hand);font-size:2rem;line-height:1.3}
+.photo-back .hand small{display:block;font-size:1.1rem;opacity:.75}
+.photo-back .mono{color:var(--paper-ink);opacity:.7}
+
+/* MOOD */
+.mood .sw{display:flex;gap:6px}
+.mood .sw i{flex:1;height:44px;border:1px solid var(--line);display:block}
+.mood .hex{display:flex;gap:6px;font-family:var(--f-mono);font-size:10px;color:var(--muted)}
+.mood .hex span{flex:1}
+.tone{display:flex;flex-wrap:wrap;gap:8px}
+
+/* LOCATION */
+.loc .tag{font-family:var(--f-mono);font-size:var(--fs-xs);color:var(--moon)}
+.decision{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.decision .card.pick{border-color:var(--flame)}
+.badge{align-self:flex-start;font-family:var(--f-mono);font-size:var(--fs-xs);letter-spacing:.06em;padding:2px 8px;border:1px solid currentColor}
+.badge.pick{color:var(--flame)}
+.badge.opt{color:var(--muted)}
+.card ul{margin:0;padding-left:1.2em;display:flex;flex-direction:column;gap:4px}
+
+/* STORYBOARD */
+.sb{gap:12px}
+.sb-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap}
+.sb ol{list-style:none;margin:0;padding:0;display:flex;flex-direction:column}
+.sb li{display:grid;grid-template-columns:28px 92px minmax(0,1fr);gap:8px;padding:8px 0;border-top:1px solid var(--line);font-size:.95rem}
+.sb li .i{font-family:var(--f-mono);font-size:var(--fs-xs);color:var(--muted);padding-top:3px}
+.sb li .s{font-family:var(--f-mono);font-size:var(--fs-xs);color:var(--moon);padding-top:3px}
+.sb li.fb .s{color:var(--flame)}
+
+/* PRODUCTION */
+.days{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.rules{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.rule{border:1px solid var(--line);padding:12px;font-size:var(--fs-sm);display:flex;flex-direction:column;gap:4px}
+.rule b{font-weight:600}
+.roles{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0 24px}
+.roles div{display:flex;justify-content:space-between;gap:12px;border-top:1px solid var(--line);padding:8px 0;font-size:.95rem}
+.roles span:last-child{font-family:var(--f-mono);font-size:var(--fs-xs);color:var(--muted);padding-top:3px;white-space:nowrap}
+
+/* CHECKLIST */
+.check{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 24px}
+.check div{display:grid;grid-template-columns:28px minmax(0,1fr) auto;gap:10px;align-items:baseline;border-top:1px solid var(--line);padding:9px 0;font-size:.95rem}
+.check .no{font-family:var(--f-mono);font-size:var(--fs-xs);color:var(--muted)}
+.st{font-family:var(--f-mono);font-size:10px;letter-spacing:.06em;padding:1px 8px;border:1px solid currentColor;white-space:nowrap}
+.st.done{color:var(--ok)}
+.st.draft{color:var(--moon)}
+.st.todo{color:var(--flame)}
+
+footer{border-top:1px solid var(--line);padding-top:18px;font-size:var(--fs-sm);color:var(--muted)}
+
+@media (max-width:900px){
+  .g5{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .branches{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .rules{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .roles{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .days{grid-template-columns:1fr}
+}
+@media (max-width:680px){
+  .hero{grid-template-columns:1fr;gap:28px}
+  .strip{grid-template-columns:repeat(4,minmax(0,1fr));padding:8px 8px 18px;transform:none}
+  .f-empty{font-size:.9rem}
+  .g2,.g3,.g5,.decision,.photo-pair,.check,.roles,.rules{grid-template-columns:1fr}
+  .mind{grid-template-columns:1fr}
+  .mind .core{width:96px;height:96px;font-size:1.3rem}
+  .branches{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .sb li{grid-template-columns:24px 78px minmax(0,1fr)}
+}
+@media (prefers-reduced-motion:no-preference){
+  .strip{transition:transform .4s ease}
+  .strip:hover{transform:rotate(0deg)}
+}
+
+body{margin:0}
+img{max-width:100%}
+[hidden]{display:none!important}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="hero">
+    <div class="hero-text">
+      <span class="mono">P-07 · CMM11167 Creativity &amp; Storytelling · แผนของผู้กำกับ</span>
+      <h1>ชาตินี้</h1>
+      <div class="song">MV เพลง you in another life forever</div>
+      <div class="chips">
+        <span class="chip theme">ธีม: ชีวิตต้องสู้ (เพื่อชีวิตวัยรุ่น)</span>
+        <span class="chip">งานกลุ่ม 15 คน</span>
+        <span class="chip">25 คะแนน</span>
+      </div>
+      <p class="lede">พ่อที่เคยยอมแพ้ความรักตอนเป็นวัยรุ่น ต้องเลือกว่าจะเผาความรักของลูกทิ้ง หรือจะหยุดไม่ให้เรื่องเดิมเกิดซ้ำกับลูก</p>
+      <p class="tagline">อย่ารอชาติหน้า ในสิ่งที่ชาตินี้ยังสู้ได้</p>
+    </div>
+    <div class="strip" aria-label="แผ่นรูปโฟโต้บูธ 4 ช่อง ช่องสุดท้ายว่าง">
+      <div class="frame f-roof"><span class="n">1</span></div>
+      <div class="frame f-door"><span class="n">2</span></div>
+      <div class="frame f-flame"><span class="n">3</span></div>
+      <div class="frame f-empty"><span class="n">4</span>ชาตินี้</div>
+    </div>
+  </header>
+
+  <nav class="toc" aria-label="สารบัญ">
+    <a href="#concept">แนวคิด</a><a href="#keyword">คีย์เวิร์ด</a><a href="#mindmap">Mind Map</a><a href="#plot">เรื่อง</a><a href="#characters">ตัวละคร</a><a href="#mood">มู้ดและสี</a><a href="#location">สถานที่</a><a href="#storyboard">สตอรี่บอร์ด</a><a href="#production">แผนถ่าย</a><a href="#checklist">ของที่ต้องส่ง</a>
+  </nav>
+
+  <section id="concept">
+    <div class="sec-head"><span class="mono"><b>สไลด์ 101</b> · Concept Text</span><h2>แนวความคิดหลัก</h2></div>
+    <p class="lede">เพลง you in another life forever พูดถึงความรักที่ยอมรอได้ถึงชาติหน้า แต่ MV ตั้งคำถามกลับว่าทำไมต้องรอ พ่อเคยรักผู้ชายคนหนึ่งตอนเป็นวัยรุ่น แต่ยอมแพ้แรงกดดันของที่บ้าน ยี่สิบกว่าปีต่อมา ลูกชายเจอกำแพงแบบเดียวกัน และพ่อกลายเป็นกำแพงนั้นเสียเอง</p>
+    <div class="grid g2">
+      <div class="card"><span class="mono">ลูกสู้</span><h3>ยืนยันว่า “มันก็เป็นผม”</h3><p class="muted">การสู้ของวัยรุ่นในเรื่องนี้ไม่ใช่การหนีหรือการยอมแพ้ แต่คือการพูดความจริงกับคนที่รักว่าเราเป็นใคร</p></div>
+      <div class="card"><span class="mono">พ่อสู้</span><h3>ไม่ทำกับลูกแบบที่ตัวเองเคยโดน</h3><p class="muted">การสู้ที่ยากที่สุดของผู้ใหญ่ คือการหยุดแรงกดดันที่ส่งต่อกันมา ไว้ที่ตัวเอง</p></div>
+    </div>
+  </section>
+
+  <section id="keyword">
+    <div class="sec-head"><span class="mono"><b>สไลด์ 100</b> · Keyword</span><h2>5 คำสำคัญจากเนื้อเพลง</h2></div>
+    <div class="grid g5">
+      <div class="card kw"><span class="mono">Keyword 1</span><div class="word">อีกชาติ</div><q>you in another life forever</q><p>ความรักที่ไม่กล้าสู้ เลยต้องฝากไว้ชาติหน้า</p><p class="shot">ภาพ: ม้านั่งริมน้ำในหมอก</p></div>
+      <div class="card kw"><span class="mono">Keyword 2</span><div class="word">ไม่เข้าใจ</div><q>ทำไมเค้าถึงไม่เข้าใจ</q><p>กำแพงระหว่างวัยรุ่นกับผู้ใหญ่</p><p class="shot">ภาพ: กุญแจหมุนล็อกประตู</p></div>
+      <div class="card kw"><span class="mono">Keyword 3</span><div class="word">มันก็เป็นผม</div><q>ทำไมไม่เข้าใจผม มันก็เป็นผม</q><p>สู้ด้วยการยืนยันตัวตน</p><p class="shot">ภาพ: ภูมิมองตาพ่อ</p></div>
+      <div class="card kw"><span class="mono">Keyword 4</span><div class="word">ไฟ</div><q>ถ้าเธอเป็นไฟฉันก็พร้อมเป็นฟืน</q><p>จะเผาทิ้ง หรือเก็บความรักไว้</p><p class="shot">ภาพ: ไฟแช็กในมือพ่อ</p></div>
+      <div class="card kw"><span class="mono">Keyword 5</span><div class="word">ไม่ยอม</div><q>ฉันจะไม่ยอม Alone และก็มองขึ้นไปบนจันทร์</q><p>ถูกแยกกัน แต่ไม่ยอมอยู่คนเดียว</p><p class="shot">ภาพ: สองหน้าต่าง ดวงจันทร์ดวงเดียว</p></div>
+    </div>
+  </section>
+
+  <section id="mindmap">
+    <div class="sec-head"><span class="mono"><b>สไลด์ 99</b> · Mind Map</span><h2>แผนที่ความคิด</h2></div>
+    <div class="mind">
+      <div class="core">ชาตินี้</div>
+      <div class="branches">
+        <div class="branch"><b>โจทย์</b><span>ชีวิตต้องสู้</span><span>เป็นตัวเอง</span><span>ไม่ซ้ำรอยพ่อ</span></div>
+        <div class="branch"><b>เพลง</b><span>อีกชาติ</span><span>ไม่เข้าใจ</span><span>มันก็เป็นผม</span><span>ไฟ</span><span>ไม่ยอม</span></div>
+        <div class="branch"><b>ตัวละคร</b><span>ภูมิ</span><span>ไนน์</span><span>พ่อ</span><span>ผู้ชายคนนั้น</span></div>
+        <div class="branch"><b>สัญลักษณ์</b><span>โฟโต้บูธช่องสุดท้ายว่าง</span><span>หูกระต่าย</span><span>ไฟแช็ก</span><span>ดวงจันทร์</span><span>ม้านั่งริมน้ำ</span></div>
+        <div class="branch"><b>อารมณ์</b><span>หวาน</span><span>อึดอัด</span><span>แตกสลาย</span><span>อบอุ่น</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="plot">
+    <div class="sec-head"><span class="mono"><b>สไลด์ 102</b> · Plot, Storyline</span><h2>เรื่องย่อ</h2></div>
+    <p>ภูมิรักกับไนน์ แต่พ่อที่เป็นตำรวจและเข้มงวดไม่ยอมรับ พ่อเจอรูปโฟโต้บูธของทั้งคู่ เลยยึดมือถือแล้วล็อกห้อง ภูมิยืนยันต่อหน้าพ่อว่า “มันก็เป็นผม” คืนนั้นพ่อจุดไฟแช็กจะเผารูป แต่เปลวไฟพาความทรงจำกลับมา พ่อตอนวัยรุ่นเคยรักผู้ชายคนหนึ่ง ทั้งคู่ไปนั่งดูดวงจันทร์ที่ม้านั่งริมน้ำด้วยกัน จนที่บ้านจับได้และกดดัน พ่อยอมแพ้ ปล่อยให้เขาเดินหายไปในหมอก แล้วแต่งงานตามที่ครอบครัวต้องการ</p>
+    <p>พ่อดับไฟแล้วปลดล็อกประตูห้องลูก เย็นวันต่อมา พ่อกลับไปที่ม้านั่งตัวเดิมโดยไม่ได้นัดใคร และเจอผู้ชายคนนั้นเดินมากับครอบครัวของเขา พ่อเป็นฝ่ายยิ้มทักก่อนเป็นครั้งแรก ส่วนภูมิกับไนน์ได้ถ่ายรูปช่องสุดท้ายในชาตินี้</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>ท่อนเพลง</th><th>ช่วงของเรื่อง</th><th>สิ่งที่เกิดขึ้น</th><th>เนื้อเพลงที่ใช้ยึดภาพ</th></tr></thead>
+        <tbody>
+          <tr><td>Intro + Verse</td><td><b>รัก</b></td><td>ภูมิกับไนน์ดูดาวบนดาดฟ้า ถ่ายโฟโต้บูธได้ 3 ช่อง แล้วพ่อโทรตาม</td><td class="lyric">ขอแค่มีเธอเดินจับมือ</td></tr>
+          <tr><td>Hook 1</td><td><b>ถูกกีดกัน</b></td><td>พ่อเจอรูปในกระเป๋าลูก ยึดมือถือ</td><td class="lyric">you in another life forever</td></tr>
+          <tr><td>Rap</td><td><b>มันก็เป็นผม</b></td><td>เผชิญหน้ากัน พ่อล็อกห้อง สองคนมองดวงจันทร์ดวงเดียวกัน</td><td class="lyric">ทำไมไม่เข้าใจผม มันก็เป็นผม</td></tr>
+          <tr><td>Hook 2</td><td><b>ไฟกับความทรงจำ</b></td><td>พ่อจุดไฟแช็ก แฟลชแบ็กรักแรกของพ่อ</td><td class="lyric">ในชาตินี้หรือว่าในชาติใด</td></tr>
+          <tr><td>Outro</td><td><b>กลับไปที่เดิม</b></td><td>พ่อเจอเขากับครอบครัวที่ม้านั่ง ภูมิกับไนน์ถ่ายช่องสุดท้าย</td><td class="muted">ข้อความปิดเรื่อง</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="muted" style="font-size:var(--fs-sm)">ความยาวแต่ละช่วงปรับตามท่อนจริงในเพลงตอนตัดต่อ</p>
+    <div class="twist">
+      <span class="mono" style="color:var(--flame)">หักมุม 2 ชั้น</span>
+      <p>1. ฉากเปิดเป็นเงาเด็กผู้ชายสองคนที่ม้านั่งริมน้ำ คนดูจะคิดว่าเป็นภูมิกับไนน์ แต่แฟลชแบ็กเฉลยว่าเป็นพ่อกับผู้ชายคนนั้นตอนวัยรุ่น</p>
+      <p>2. พ่อที่เป็นกำแพงมาทั้งเรื่อง คือคนที่เคยโดนกำแพงเดียวกันมาก่อน</p>
+    </div>
+  </section>
+
+  <section id="characters">
+    <div class="sec-head"><span class="mono"><b>สไลด์ 106</b> · Characters</span><h2>ตัวละคร</h2></div>
+    <div class="grid g2">
+      <div class="card char"><span class="mono">ลูก · 18</span><div class="name">ภูมิ</div><dl><dt>นิสัย</dt><dd>เงียบ เก็บความรู้สึก แต่ไม่ยอมเป็นคนอื่น</dd><dt>พัฒนาการ</dt><dd>จากคนเก็บเงียบ กลายเป็นคนที่พูดว่า “มันก็เป็นผม”</dd><dt>นักแสดง</dt><dd>คนในกลุ่ม</dd></dl></div>
+      <div class="card char"><span class="mono">คนรักของภูมิ · 18</span><div class="name">ไนน์</div><dl><dt>นิสัย</dt><dd>สดใส กล้า ทำให้ภูมิกล้าเป็นตัวเอง</dd><dt>บทบาท</dt><dd>คนที่สวมหูกระต่ายให้ภูมิในช่องสุดท้าย</dd><dt>นักแสดง</dt><dd>คนในกลุ่ม</dd></dl></div>
+      <div class="card char"><span class="mono">ตำรวจ · 45 (17 ในอดีต)</span><div class="name">พ่อ</div><dl><dt>นิสัย</dt><dd>เข้มงวด ไม่ยิ้ม เคยรักผู้ชายแต่ยอมแพ้ที่บ้าน จนต้องแต่งงานตามที่ครอบครัวต้องการ</dd><dt>พัฒนาการ</dt><dd>จากคนที่ส่งต่อแรงกดดัน กลายเป็นคนที่หยุดมันไว้ที่ตัวเอง</dd><dt>นักแสดง</dt><dd>ผู้ใหญ่ (ญาติของเพื่อน) · ตอนวัยรุ่นให้คนในกลุ่มเล่น</dd></dl></div>
+      <div class="card char"><span class="mono">รักแรกของพ่อ · 45 (17 ในอดีต)</span><div class="name">ผู้ชายคนนั้น</div><dl><dt>ตอนนี้</dt><dd>มีภรรยาและลูก ไม่ได้เจอพ่อมา 20 กว่าปี</dd><dt>การปรากฏ</dt><dd>เห็นหน้าแค่ฉากจบ</dd><dt>นักแสดง</dt><dd>ผู้ใหญ่ · ตอนวัยรุ่นให้คนในกลุ่มเล่น</dd></dl></div>
+    </div>
+    <p class="muted" style="font-size:var(--fs-sm)">บทรับเชิญ: แม่ (อยู่ในรูปครอบครัวบนผนัง) และภรรยากับลูกของผู้ชายคนนั้น (ฉากจบฉากเดียว) · สไลด์นี้ใช้รูปนักแสดงจริง เพราะโจทย์ห้ามเจนตัวละครด้วย AI</p>
+    <div class="photo-pair">
+      <div class="old-strip">
+        <span class="mono">รูปโฟโต้บูธเก่าของพ่อ · ของชิ้นหลักของเรื่อง</span>
+        <ol>
+          <li>ผู้ชายอีกคนเอาหูกระต่ายมาสวมให้พ่อ พ่อทำหน้าเหวอ</li>
+          <li>ทั้งคู่ทำท่าตลก หัวเราะจนตาหยี เป็นรอยยิ้มของพ่อที่คนดูไม่เคยเห็น</li>
+          <li>อีกคนมองกล้อง แต่พ่อหันไปมองเขาแทน ช่องนี้บอกว่าพ่อชอบเขา</li>
+          <li>ว่างเปล่า เพราะม่านตู้ถูกกระชากเปิด มุมกระดาษไหม้จากตอนที่บ้านพยายามเผา</li>
+        </ol>
+      </div>
+      <div class="photo-back">
+        <span class="mono">หลังรูป · ลายมือพ่อ</span>
+        <div class="hand">อีกชาตินะ<small>2541</small></div>
+        <p style="font-size:var(--fs-sm)">ตัดสลับกับรูปครอบครัวบนผนัง ที่พ่อใส่ชุดตำรวจแต่หน้านิ่ง</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="mood">
+    <div class="sec-head"><span class="mono"><b>สไลด์ 107</b> · Mood Board</span><h2>มู้ด สี และน้ำเสียง</h2></div>
+    <div class="grid g2">
+      <div class="card mood"><span class="mono">ช่วงที่ 1</span><h3>ความรัก</h3><p class="muted">แสงส้มอุ่นตัดกับแสงจันทร์สีฟ้า ไฟเมืองเป็นโบเก้</p><div class="sw"><i style="background:#E8A15A"></i><i style="background:#2E4A6B"></i><i style="background:#F4E3C1"></i></div><div class="hex"><span>#E8A15A</span><span>#2E4A6B</span><span>#F4E3C1</span></div></div>
+      <div class="card mood"><span class="mono">ช่วงที่ 2</span><h3>ถูกกีดกัน</h3><p class="muted">เทาอมเขียว หม่น มืด เงาเยอะ</p><div class="sw"><i style="background:#2F3A36"></i><i style="background:#5E6B66"></i><i style="background:#121514"></i></div><div class="hex"><span>#2F3A36</span><span>#5E6B66</span><span>#121514</span></div></div>
+      <div class="card mood"><span class="mono">แฟลชแบ็ก</span><h3>ความทรงจำของพ่อ</h3><p class="muted">ภาพ 4:3 สีซีด มีเกรน</p><div class="sw"><i style="background:#CBB89A"></i><i style="background:#8C7B66"></i><i style="background:#E9DFCC"></i></div><div class="hex"><span>#CBB89A</span><span>#8C7B66</span><span>#E9DFCC</span></div></div>
+      <div class="card mood"><span class="mono">ฉากจบ</span><h3>ชาตินี้</h3><p class="muted">พลบค่ำอบอุ่น หมอกจาง</p><div class="sw"><i style="background:#F2B880"></i><i style="background:#6D7FA3"></i><i style="background:#FFF3E2"></i></div><div class="hex"><span>#F2B880</span><span>#6D7FA3</span><span>#FFF3E2</span></div></div>
+    </div>
+    <div class="tone"><span class="chip">เงียบ</span><span class="chip">เล่าด้วยสีหน้า</span><span class="chip">โคลสอัพเยอะ</span><span class="chip">แสงธรรมชาติ</span><span class="chip">เกรนฟิล์ม</span><span class="chip">บทพูดเดียว: “มันก็เป็นผม”</span></div>
+    <p class="muted" style="font-size:var(--fs-sm)">อ้างอิง: MV แนว T-pop เล่าเรื่องที่เพื่อนส่งในกลุ่ม</p>
+  </section>
+
+  <section id="location">
+    <div class="sec-head"><span class="mono"><b>สไลด์ 108</b> · Location Board</span><h2>สถานที่ถ่ายทำ</h2></div>
+    <div class="grid g3">
+      <div class="card loc"><span class="tag">กลางคืน · บ้าน</span><h3>ห้องนอนภูมิ</h3><p class="muted">ฉากหลัก ประตูที่ถูกล็อก</p></div>
+      <div class="card loc"><span class="tag">กลางคืน · บ้าน</span><h3>ห้องนั่งเล่น</h3><p class="muted">รูปครอบครัวบนผนัง โต๊ะที่พ่อจุดไฟแช็ก</p></div>
+      <div class="card loc"><span class="tag">แฟลช · บ้าน</span><h3>โฟโต้บูธ DIY</h3><p class="muted">ผ้าม่านสีพื้นกับไฟแฟลช ใช้ทั้งฉากอดีตและปัจจุบัน</p></div>
+      <div class="card loc"><span class="tag">กลางคืน</span><h3>ดาดฟ้า</h3><p class="muted">ภูมิกับไนน์ดูดาว</p></div>
+      <div class="card loc"><span class="tag">พลบค่ำ</span><h3>ม้านั่งริมน้ำ</h3><p class="muted">แฟลชแบ็กของพ่อ และฉากจบ ใช้สวนสาธารณะหรือสระน้ำในมหาลัยได้</p></div>
+      <div class="card loc"><span class="tag">รวม</span><h3>3 ที่จริง</h3><p class="muted">บ้านหนึ่งหลัง ดาดฟ้าหนึ่งที่ และริมน้ำหนึ่งที่</p></div>
+    </div>
+    <h3>ฉากดูดาว: ดาดฟ้าหรือทะเล</h3>
+    <div class="decision">
+      <div class="card pick">
+        <span class="badge pick">แผนหลัก</span>
+        <h3>ดาดฟ้า สำหรับภูมิกับไนน์</h3>
+        <ul>
+          <li>เมืองคือโลกปัจจุบันของภูมิ ส่วนน้ำคือโลกในอดีตของพ่อ ภาพจะแยกสองรุ่นออกจากกันชัด</li>
+          <li>ไฟเมืองเป็นแสงฟรี ได้โบเก้สวย ทะเลตอนกลางคืนมืดสนิท ต้องใช้ไฟเยอะ</li>
+          <li>อยู่ใกล้ ไม่ต้องเดินทาง ถ่ายต่อจากฉากริมน้ำได้ในวันเดียว</li>
+        </ul>
+      </div>
+      <div class="card">
+        <span class="badge opt">ตัวเลือก</span>
+        <h3>ทะเล สำหรับที่ของพ่อ</h3>
+        <ul>
+          <li>ถ้าอยากได้ทะเล ใช้แทนม้านั่งริมน้ำ ไม่ใช้กับฉากดูดาว</li>
+          <li>ครอบครัวเดินเล่นริมหาดตอนเย็นดูเป็นธรรมชาติกว่า และการที่พ่อขับรถไปทะเลคนเดียวมีความหมายกว่า</li>
+          <li>ต้องพานักแสดงผู้ใหญ่ 4 คนไปด้วยหนึ่งวันเต็ม ตัดสินใจหลังคุยกับนักแสดงผู้ใหญ่</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="storyboard">
+    <div class="sec-head"><span class="mono"><b>สไลด์ 109–112</b> · Storyboard</span><h2>สตอรี่บอร์ด 4 ช่วง</h2></div>
+    <div class="grid g2">
+      <div class="card sb">
+        <div class="sb-head"><h3>SB1 · รัก</h3><span class="mono">Intro + Verse</span></div>
+        <ol>
+          <li><span class="i">1</span><span class="s">WS</span><span>เงาเด็กผู้ชายสองคนที่ม้านั่งริมน้ำ ถ่ายจากข้างหลัง</span></li>
+          <li><span class="i">2</span><span class="s">WS</span><span>ภูมิกับไนน์ดูดาวบนดาดฟ้า ไฟเมืองด้านหลัง</span></li>
+          <li><span class="i">3</span><span class="s">CU</span><span>มือจับกัน</span></li>
+          <li><span class="i">4</span><span class="s">MS</span><span>แฟลชโฟโต้บูธ ไนน์หัวเราะ</span></li>
+          <li><span class="i">5</span><span class="s">INSERT</span><span>มือถือขึ้นสาย “พ่อ”</span></li>
+          <li><span class="i">6</span><span class="s">INSERT</span><span>แผ่นรูป 3 ช่อง ช่องสุดท้ายว่าง</span></li>
+        </ol>
+      </div>
+      <div class="card sb">
+        <div class="sb-head"><h3>SB2 · ถูกกีดกัน</h3><span class="mono">Hook 1</span></div>
+        <ol>
+          <li><span class="i">1</span><span class="s">INSERT</span><span>มือพ่อเจอแผ่นรูปในกระเป๋าลูก ยังไม่เห็นหน้าพ่อ</span></li>
+          <li><span class="i">2</span><span class="s">MS</span><span>ชุดตำรวจแขวนอยู่</span></li>
+          <li><span class="i">3</span><span class="s">OTS</span><span>พ่อยื่นมือขอมือถือ</span></li>
+          <li><span class="i">4</span><span class="s">CU</span><span>ภูมิกลั้นน้ำตา ปากสั่น</span></li>
+          <li><span class="i">5</span><span class="s">MS</span><span>ภูมินั่งในห้องคนเดียว</span></li>
+          <li><span class="i">6</span><span class="s">INSERT</span><span>รูปครอบครัวบนผนัง พ่อไม่ยิ้ม</span></li>
+        </ol>
+      </div>
+      <div class="card sb">
+        <div class="sb-head"><h3>SB3 · มันก็เป็นผม</h3><span class="mono">Rap</span></div>
+        <ol>
+          <li><span class="i">1</span><span class="s">OTS</span><span>ภูมิเผชิญหน้ากับพ่อ</span></li>
+          <li><span class="i">2</span><span class="s">CU</span><span>ภูมิพูดว่า “มันก็เป็นผม” บทพูดเดียวในเรื่อง</span></li>
+          <li><span class="i">3</span><span class="s">INSERT</span><span>กุญแจหมุนล็อกประตู</span></li>
+          <li><span class="i">4</span><span class="s">MS</span><span>ภูมินั่งพิงประตู</span></li>
+          <li><span class="i">5</span><span class="s">SPLIT</span><span>สองหน้าต่าง ดวงจันทร์ดวงเดียวกัน</span></li>
+          <li><span class="i">6</span><span class="s">CU</span><span>ไนน์มองดวงจันทร์</span></li>
+        </ol>
+      </div>
+      <div class="card sb">
+        <div class="sb-head"><h3>SB4 · ไฟ / ชาตินี้</h3><span class="mono">Hook 2 + Outro</span></div>
+        <ol>
+          <li><span class="i">1</span><span class="s">ECU</span><span>เปลวไฟจ่อรูปของลูก</span></li>
+          <li><span class="i">2</span><span class="s">CU</span><span>เห็นหน้าพ่อครั้งแรก</span></li>
+          <li><span class="i">3</span><span class="s">INSERT</span><span>รูปเก่าหูกระต่าย หยุดนานที่ช่อง 3</span></li>
+          <li class="fb"><span class="i">4</span><span class="s">FLASHBACK</span><span>ม้านั่งริมน้ำ พ่อวัยรุ่นมองเขาแทนดวงจันทร์</span></li>
+          <li class="fb"><span class="i">5</span><span class="s">FLASHBACK</span><span>ม่านตู้โฟโต้บูธถูกกระชากเปิด</span></li>
+          <li class="fb"><span class="i">6</span><span class="s">FLASHBACK</span><span>เขาเดินหายไปในหมอก</span></li>
+          <li><span class="i">7</span><span class="s">INSERT</span><span>พ่อปิดไฟแช็ก ปลดล็อกห้อง วางรูปเก่าไว้ข้างรูปลูก</span></li>
+          <li><span class="i">8</span><span class="s">WS</span><span>พลบค่ำ พ่อเจอเขากับครอบครัวที่ม้านั่ง แล้วยิ้มทักก่อน</span></li>
+          <li><span class="i">9</span><span class="s">MS</span><span>แฟลชช่องสุดท้าย ไนน์สวมหูกระต่ายให้ภูมิ แล้วขึ้นข้อความปิดเรื่อง</span></li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <section id="production">
+    <div class="sec-head"><span class="mono">แผนการถ่ายทำ</span><h2>ถ่ายอย่างไร</h2></div>
+    <div class="rules">
+      <div class="rule"><b>กล้องจริง 1080 50p</b><span class="muted">ถ่าย 50p เผื่อทำสโลว์ในฉากแฟลชและเปลวไฟ</span></div>
+      <div class="rule"><b>ห้ามเจนตัวละครด้วย AI</b><span class="muted">ทุกคนในเรื่องเป็นคนจริง</span></div>
+      <div class="rule"><b>AI ช่วย Pre-Production ได้</b><span class="muted">มู้ดบอร์ด สตอรี่บอร์ด คอนเซปต์บอร์ด</span></div>
+      <div class="rule"><b>AI ช่วยกราฟิกใน Post ได้</b><span class="muted">ดวงจันทร์ ข้อความปิดเรื่อง</span></div>
+    </div>
+    <div class="days">
+      <div class="card"><span class="mono">ก่อนวันถ่าย</span><h3>เตรียมรูปโฟโต้บูธ</h3><p class="muted">ถ่ายรูปนิ่งทั้งชุดของภูมิกับไนน์ และชุดของพ่อตอนวัยรุ่น แล้วปริ้น แผ่นของพ่อทำให้ซีดและไหม้มุม เพราะต้องใช้เป็นพร็อพตั้งแต่วันแรก</p></div>
+      <div class="card"><span class="mono">วันที่ 1 · บ้าน</span><h3>บ่ายถึงดึก</h3><p class="muted">ห้องนอน ห้องนั่งเล่น ฉากไฟแช็ก และโฟโต้บูธ DIY ทั้งอดีตและปัจจุบัน นักแสดงพ่อใช้เวลาราว 3–4 ชั่วโมง</p></div>
+      <div class="card"><span class="mono">วันที่ 2 · นอกสถานที่</span><h3>เย็นถึงค่ำ</h3><p class="muted">เตรียมที่ริมน้ำก่อนพระอาทิตย์ตก (ปลาย ต.ค. ราว 17:50) ถ่ายฉากจบกับครอบครัวของเขาก่อน ตามด้วยแฟลชแบ็กวัยรุ่นตอนมืด แล้วย้ายไปดาดฟ้า</p></div>
+    </div>
+    <div class="grid g2">
+      <div class="card">
+        <span class="mono">พร็อพ</span>
+        <ul>
+          <li>หูกระต่าย 1 อัน ใช้ทั้งรูปเก่าและฉากจบ</li>
+          <li>ไฟแช็ก กับน้ำหนึ่งถังไว้ข้างตัวทุกครั้งที่ใช้ไฟ</li>
+          <li>แผ่นรูปโฟโต้บูธ ใหม่ 1 เก่า 1</li>
+          <li>รูปครอบครัวใส่กรอบ และกระเป๋าสตางค์เก่า</li>
+          <li>ชุดตำรวจ ใช้ถ่ายในบ้านเท่านั้น ไม่ใส่ออกนอกบ้าน</li>
+          <li>ผ้าม่านสีพื้นกับไฟแฟลช ชุดย้อนยุคสำหรับพ่อวัยรุ่น</li>
+        </ul>
+      </div>
+      <div class="card">
+        <span class="mono">วิธีกำกับนักแสดง</span>
+        <ul>
+          <li>สั่งเป็นการกระทำ ไม่สั่งเป็นอารมณ์</li>
+          <li>เปิดเพลงในกองตอนถ่าย</li>
+          <li>สั่งคัทแล้วยังไม่หยุดกล้อง</li>
+          <li>ใช้แสงหน้าต่างและไฟเมืองเป็นแสงหลัก</li>
+          <li>ไม่ให้เห็นหน้าพ่อจนถึงฉากไฟแช็ก</li>
+        </ul>
+      </div>
+    </div>
+    <h3>ทีม 15 คน</h3>
+    <div class="roles">
+      <div><span>ผู้กำกับ (โจ)</span><span>1</span></div>
+      <div><span>ผู้ช่วยผู้กำกับ คุมคิว</span><span>1</span></div>
+      <div><span>ตากล้องหลัก</span><span>1</span></div>
+      <div><span>กล้องสอง และเบื้องหลัง</span><span>1</span></div>
+      <div><span>ไฟ</span><span>2</span></div>
+      <div><span>ฉากและพร็อพ</span><span>2</span></div>
+      <div><span>เสื้อผ้า หน้า ผม</span><span>1</span></div>
+      <div><span>ภาพนิ่งโฟโต้บูธ</span><span>1</span></div>
+      <div><span>เสียงและเพลง</span><span>1</span></div>
+      <div><span>ตัดต่อ</span><span>1</span></div>
+      <div><span>เกรดสีและกราฟิก</span><span>1</span></div>
+      <div><span>สไลด์และเอกสาร</span><span>1</span></div>
+      <div><span>ประสานนักแสดงผู้ใหญ่และสถานที่</span><span>1</span></div>
+    </div>
+    <p class="muted" style="font-size:var(--fs-sm)">นักแสดงในกลุ่ม 4 คน (ภูมิ ไนน์ พ่อวัยรุ่น ผู้ชายคนนั้นวัยรุ่น) รับหน้าที่อื่นนอกกล้องด้วย</p>
+  </section>
+
+  <section id="checklist">
+    <div class="sec-head"><span class="mono">สไลด์ 98–112</span><h2>ของที่ต้องส่ง 12 อย่าง</h2></div>
+    <div class="check">
+      <div><span class="no">01</span><span>คลิป MV</span><span class="st todo">ต้องถ่าย</span></div>
+      <div><span class="no">02</span><span>Mind Map</span><span class="st draft">ร่างแล้ว</span></div>
+      <div><span class="no">03</span><span>Keyword 5 คำ</span><span class="st draft">ร่างแล้ว</span></div>
+      <div><span class="no">04</span><span>Concept Text</span><span class="st draft">ร่างแล้ว</span></div>
+      <div><span class="no">05</span><span>เนื้อเพลง</span><span class="st done">มีแล้ว</span></div>
+      <div><span class="no">06</span><span>เพลง</span><span class="st done">มีเดโม</span></div>
+      <div><span class="no">07</span><span>Plot, Storyline</span><span class="st draft">ร่างแล้ว</span></div>
+      <div><span class="no">08</span><span>Concept Board</span><span class="st todo">ต้องทำภาพ</span></div>
+      <div><span class="no">09</span><span>Characters</span><span class="st todo">ต้องถ่ายรูปนักแสดง</span></div>
+      <div><span class="no">10</span><span>Mood Board</span><span class="st draft">ร่างแล้ว</span></div>
+      <div><span class="no">11</span><span>Storyboard</span><span class="st todo">ต้องวาด</span></div>
+      <div><span class="no">12</span><span>Location Board</span><span class="st todo">ต้องถ่ายรูปสถานที่</span></div>
+    </div>
+  </section>
+
+  <footer>แผนร่างของผู้กำกับ · 22 ต.ค. 2569 · คอมเมนต์และเสนอแก้ในกลุ่มได้เลย</footer>
+</div>
+</body>
+</html>
