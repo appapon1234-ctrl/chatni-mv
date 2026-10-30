@@ -169,6 +169,36 @@ td b{font-weight:600}
 .st.draft{color:var(--moon)}
 .st.todo{color:var(--flame)}
 
+/* DEADLINES + TODO */
+.timeline{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));border:1px solid var(--line);background:var(--surface)}
+.timeline div{padding:14px;border-left:1px solid var(--line);display:flex;flex-direction:column;gap:4px;min-width:0}
+.timeline div:first-child{border-left:0}
+.timeline .w{font-family:var(--f-mono);font-size:var(--fs-xs);color:var(--muted)}
+.timeline .d{font-family:var(--f-display);font-weight:800;font-size:1.25rem}
+.timeline .t{font-size:var(--fs-sm)}
+.timeline .now{background:var(--raise);box-shadow:inset 0 3px 0 var(--flame)}
+.timeline .now .d{color:var(--flame)}
+.card .row{display:flex;justify-content:space-between;align-items:baseline;gap:8px;flex-wrap:wrap}
+
+/* SCRIPT */
+.scenes{display:flex;flex-direction:column}
+.scene{display:grid;grid-template-columns:110px minmax(0,1fr);gap:16px;padding:16px 0;border-top:1px solid var(--line)}
+.scene .meta{display:flex;flex-direction:column;gap:2px}
+.scene .no{font-family:var(--f-display);font-weight:800;font-size:1.5rem;line-height:1.2}
+.scene .part{font-family:var(--f-mono);font-size:var(--fs-xs);color:var(--moon);letter-spacing:.06em;text-transform:uppercase}
+.scene.fb .part{color:var(--flame)}
+.scene .body{display:flex;flex-direction:column;gap:6px;min-width:0}
+.scene .slug{font-weight:600}
+.scene .line{color:var(--flame)}
+.scene .info{font-size:var(--fs-sm);color:var(--muted)}
+@media (max-width:680px){
+  .timeline{grid-template-columns:1fr}
+  .timeline div{border-left:0;border-top:1px solid var(--line)}
+  .timeline div:first-child{border-top:0}
+  .scene{grid-template-columns:1fr;gap:6px}
+  .scene .meta{flex-direction:row;align-items:baseline;gap:10px}
+}
+
 footer{border-top:1px solid var(--line);padding-top:18px;font-size:var(--fs-sm);color:var(--muted)}
 
 @media (max-width:900px){
@@ -223,8 +253,29 @@ img{max-width:100%}
   </header>
 
   <nav class="toc" aria-label="สารบัญ">
-    <a href="#concept">แนวคิด</a><a href="#keyword">คีย์เวิร์ด</a><a href="#mindmap">Mind Map</a><a href="#plot">เรื่อง</a><a href="#characters">ตัวละคร</a><a href="#mood">มู้ดและสี</a><a href="#location">สถานที่</a><a href="#storyboard">สตอรี่บอร์ด</a><a href="#production">แผนถ่าย</a><a href="#checklist">ของที่ต้องส่ง</a>
+    <a href="#deadline">กำหนดส่ง</a><a href="#concept">แนวคิด</a><a href="#keyword">คีย์เวิร์ด</a><a href="#mindmap">Mind Map</a><a href="#plot">เรื่อง</a><a href="#script">บท</a><a href="#characters">ตัวละคร</a><a href="#mood">มู้ดและสี</a><a href="#location">สถานที่</a><a href="#storyboard">สตอรี่บอร์ด</a><a href="#production">แผนถ่าย</a><a href="#checklist">ของที่ต้องส่ง</a>
   </nav>
+
+  <section id="deadline">
+    <div class="sec-head"><span class="mono">SEC002 · วันอังคาร</span><h2>กำหนดส่ง</h2></div>
+    <div class="timeline">
+      <div class="now"><span class="w">Week 11 · ส่งถัดไป</span><span class="d">3 พ.ย.</span><span class="t">Pre-Production: เพลง คอนเซปต์ เนื้อหา บท คาแรกเตอร์ โลเคชั่น คอนเซปต์บอร์ด มู้ดบอร์ด</span></div>
+      <div><span class="w">Week 12</span><span class="d">10 พ.ย.</span><span class="t">สตอรี่บอร์ด</span></div>
+      <div><span class="w">Week 13</span><span class="d">17 พ.ย.</span><span class="t">MV ดราฟต์แรก</span></div>
+      <div><span class="w">Week 14</span><span class="d">24 พ.ย.</span><span class="t">ไฟนอลและโหวต</span></div>
+      <div><span class="w">Showcase</span><span class="d">1 ธ.ค.</span><span class="t">โรงยิม ตึก 9 ชั้น 12</span></div>
+    </div>
+    <p class="muted" style="font-size:var(--fs-sm)">ควรถ่ายให้เสร็จภายใน 13 พ.ย. จะได้มีเวลาตัดต่อก่อนส่งดราฟต์แรก</p>
+    <h3>งานก่อนวันอังคาร 3 พ.ย.</h3>
+    <div class="grid g3">
+      <div class="card"><div class="row"><h3>บท MV</h3><span class="st done">เสร็จ</span></div><p class="muted">12 ฉาก อยู่ในหัวข้อบทของหน้านี้ ใส่เป็นสไลด์ใหม่ต่อจากสไลด์ 102</p></div>
+      <div class="card"><div class="row"><h3>คอนเซปต์บอร์ด มู้ดบอร์ด</h3><span class="st draft">ร่าง AI แล้ว</span></div><p class="muted">ภาพร่าง 8 รูปอยู่ใน Canva ของโจ จัดลงสไลด์ 105 กับ 107 คนในภาพเป็นแค่ตัวอย่าง ตอนถ่ายจริงใช้นักแสดงในกลุ่ม</p></div>
+      <div class="card"><div class="row"><h3>เพลงเวอร์ชันส่ง</h3><span class="st todo">ต้องยืนยัน</span></div><p class="muted">เช็กว่าเป็นเวอร์ชันล่าสุด แนบในสไลด์ 104 และใส่เนื้อเพลงในสไลด์ 103</p></div>
+      <div class="card"><div class="row"><h3>รูปนักแสดง</h3><span class="st todo">ต้องถ่าย</span></div><ul><li>ถ่ายกับผนังสีพื้น ใช้แสงจากหน้าต่าง</li><li>คนละ 3 รูป: หน้าตรง เอียงสามในสี่ เต็มตัว</li><li>ภูมิกับไนน์ใส่ชุดลำลอง พ่อใส่เสื้อเชิ้ตเรียบ</li><li>พ่อวัยรุ่นกับผู้ชายคนนั้นใส่ชุดย้อนยุคปลายยุค 90</li><li>ถ่ายภูมิกับไนน์คู่กัน 1 รูป</li></ul></div>
+      <div class="card"><div class="row"><h3>รูปสถานที่</h3><span class="st todo">ต้องไปดู</span></div><ul><li>ริมสระน้ำ: ไปช่วง 17:30–18:00 ดูแสงจริง ถ่ายมุมกว้างกับมุมม้านั่ง</li><li>เช็กที่ตั้งขาตั้งกล้อง คนเดินผ่าน และต้องขออนุญาตใคร</li><li>ดาดฟ้า: ถ่ายมุมที่เห็นไฟเมือง ให้นั่งห่างขอบ ห้ามนั่งบนขอบจริง</li><li>บ้าน: ประตูห้องที่ล็อกได้ ผนังแขวนรูป มุมทำโฟโต้บูธ</li></ul></div>
+      <div class="card"><div class="row"><h3>ใส่ลงสไลด์ Canva</h3><span class="st todo">ต้องทำ</span></div><p class="muted">สไลด์ 99–108 ใช้ข้อความจากหน้านี้ได้ทั้งหมด</p></div>
+    </div>
+  </section>
 
   <section id="concept">
     <div class="sec-head"><span class="mono"><b>สไลด์ 101</b> · Concept Text</span><h2>แนวความคิดหลัก</h2></div>
@@ -287,6 +338,25 @@ img{max-width:100%}
       <p>ช่องสุดท้ายที่ว่าง คือช่องที่พ่อทำให้ขาดหายตอนโทรตามลูก ไฟเผาไปแค่ช่องนั้น สิ่งที่เหลือคือรูป 3 ช่องที่สมบูรณ์ ความรักของลูกไม่ได้ขาดอะไรเลย</p>
       <p>พ่อทลายกำแพงที่ตัวเองสร้างไว้ได้สำเร็จ เลยเอารูปไปคืนลูก</p>
       <p>เงาของพ่อตอนวัยรุ่นยิ้มให้ แล้วสลายเป็นฝุ่น พ่อคืนดีกับตัวเองในอดีต และปล่อยเรื่องที่ค้างในใจไป</p>
+    </div>
+  </section>
+
+  <section id="script">
+    <div class="sec-head"><span class="mono"><b>ส่ง 3 พ.ย.</b> · Script</span><h2>บท MV</h2></div>
+    <p class="muted" style="font-size:var(--fs-sm)">แบ่งตามท่อน Verse / Hook / Rap ของเพลง ความยาวแต่ละฉากปรับตามเพลงจริงตอนตัดต่อ ทั้งเรื่องไม่มีบทพูด ยกเว้นฉาก 5</p>
+    <div class="scenes">
+      <div class="scene"><div class="meta"><span class="no">1</span><span class="part">Intro</span></div><div class="body"><span class="slug">ภายนอก · ริมสระน้ำ · กลางคืน (อดีต)</span><p>ดวงจันทร์สะท้อนบนผิวน้ำนิ่ง กล้องค่อยๆ ถอยออก เห็นเด็กผู้ชายสองคนนั่งบนม้านั่ง ถ่ายจากข้างหลัง คนหนึ่งชี้ขึ้นไปที่ดวงจันทร์ อีกคนหันไปมองเขาแทน หมอกบางๆ ลอยบนน้ำ</p><p class="info">ตัวละคร: พ่อวัยรุ่น, ผู้ชายคนนั้นวัยรุ่น · ห้ามเห็นหน้า คนดูต้องคิดว่าเป็นภูมิกับไนน์</p></div></div>
+      <div class="scene"><div class="meta"><span class="no">2</span><span class="part">Verse</span></div><div class="body"><span class="slug">ภายนอก · ดาดฟ้า · กลางคืน</span><p>ภูมิกับไนน์นั่งบนดาดฟ้า ไฟเมืองเป็นโบเก้ด้านหลัง ไนน์ชี้ดาวให้ภูมิดู ภูมิหัวเราะ มือสองคนค่อยๆ ขยับมาจับกัน</p><p class="line">“ขอแค่มีเธอเดินจับมือ”</p><p class="info">ตัวละคร: ภูมิ, ไนน์</p></div></div>
+      <div class="scene"><div class="meta"><span class="no">3</span><span class="part">Verse</span></div><div class="body"><span class="slug">ภายใน · มุมโฟโต้บูธ · กลางคืน</span><p>แฟลช 3 ครั้ง ทั้งคู่ทำท่าตลกต่างกัน ช่องที่ 3 ไนน์หันไปมองภูมิแทนกล้อง เหมือนรูปเก่าของพ่อ ก่อนแฟลชที่ 4 มือถือภูมิขึ้นสาย “พ่อ” ภูมิรีบลุกออกจากตู้ แฟลชสุดท้ายลั่นใส่ที่นั่งว่าง แผ่นรูปพิมพ์ออกมา ช่องสุดท้ายว่าง</p><p class="info">ตัวละคร: ภูมิ, ไนน์ · พร็อพ: แผ่นรูปของภูมิ</p></div></div>
+      <div class="scene"><div class="meta"><span class="no">4</span><span class="part">Hook 1</span></div><div class="body"><span class="slug">ภายใน · ห้องนั่งเล่น · กลางคืน</span><p>ชุดตำรวจแขวนอยู่ข้างประตู มือพ่อหยิบแผ่นรูปออกจากเป้ของภูมิ ภูมิเดินเข้ามาเห็นพอดี มือพ่อยื่นออกมาขอมือถือ ภูมิยื่นให้โดยไม่พูดอะไร ตัดไปรูปครอบครัวบนผนังที่พ่อหน้านิ่ง</p><p class="line">“you in another life forever”</p><p class="info">ตัวละคร: พ่อ (ไม่เห็นหน้า), ภูมิ · พร็อพ: ชุดตำรวจ รูปครอบครัว</p></div></div>
+      <div class="scene"><div class="meta"><span class="no">5</span><span class="part">Rap</span></div><div class="body"><span class="slug">ภายใน · ห้องนอนภูมิ · กลางคืน</span><p>พ่อยืนขวางประตู ถ่ายข้ามไหล่พ่อ ภูมิลิปซิงก์แร็ปเหมือนคำที่อัดอยู่ข้างใน พอถึงท่อน “มันก็เป็นผม” ภูมิพูดคำนี้ออกมาจริงต่อหน้าพ่อ พ่อเงียบ หันหลังออกไป ปิดประตู กุญแจหมุนล็อก</p><p class="line">ภูมิ: “มันก็เป็นผม” (บทพูดเดียวในเรื่อง)</p><p class="info">ตัวละคร: พ่อ (ไม่เห็นหน้า), ภูมิ</p></div></div>
+      <div class="scene"><div class="meta"><span class="no">6</span><span class="part">Rap</span></div><div class="body"><span class="slug">ภายใน · ห้องภูมิ / ห้องไนน์ · กลางคืน</span><p>ภูมินั่งพิงประตูที่ถูกล็อก แบ่งจอเป็นสองฝั่ง ภูมิกับไนน์อยู่คนละห้อง ต่างคนต่างเดินไปที่หน้าต่าง แล้วมองดวงจันทร์ดวงเดียวกัน</p><p class="line">“ฉันจะไม่ยอม Alone และก็มองขึ้นไปบนจันทร์”</p><p class="info">ตัวละคร: ภูมิ, ไนน์</p></div></div>
+      <div class="scene"><div class="meta"><span class="no">7</span><span class="part">Hook 2</span></div><div class="body"><span class="slug">ภายใน · ห้องนั่งเล่น · ดึก</span><p>พ่อนั่งคนเดียวในความมืด จุดไฟแช็ก แสงไฟทำให้เห็นหน้าพ่อเป็นครั้งแรก พ่อจ่อไฟที่แผ่นรูปของลูก มือค้าง แล้วเปิดกระเป๋าสตางค์ หยิบรูปโฟโต้บูธเก่าออกมา พ่อวัยรุ่นใส่หูกระต่าย หัวเราะกับผู้ชายคนหนึ่ง ช่องที่ 3 พ่อหันไปมองเขา พลิกหลังรูป เห็นลายมือ “อีกชาตินะ 2541”</p><p class="line">“ในชาตินี้หรือว่าในชาติใด”</p><p class="info">ตัวละคร: พ่อ · พร็อพ: ไฟแช็ก กระเป๋าสตางค์ รูปเก่าของพ่อ</p></div></div>
+      <div class="scene fb"><div class="meta"><span class="no">8</span><span class="part">Hook 2 · แฟลชแบ็ก</span></div><div class="body"><span class="slug">อดีต · ภาพ 4:3</span><p>ตัดภาพตามจังหวะเปลวไฟ: ตู้โฟโต้บูธ เขาสวมหูกระต่ายให้พ่อ → ม่านตู้ถูกมือผู้ใหญ่กระชากเปิด → ม้านั่งริมสระน้ำ มุมเดียวกับฉาก 1 แต่คราวนี้เห็นหน้า คนดูรู้ว่าเป็นพ่อ → คืนสุดท้าย เขาเดินหายไปในหมอก พ่อนั่งอยู่คนเดียว</p><p class="info">ตัวละคร: พ่อวัยรุ่น, ผู้ชายคนนั้นวัยรุ่น · ชุดย้อนยุคปลายยุค 90 · สีซีด มีเกรน</p></div></div>
+      <div class="scene"><div class="meta"><span class="no">9</span><span class="part">Hook 2</span></div><div class="body"><span class="slug">ภายใน · ห้องนั่งเล่น · ดึก</span><p>กลับมาปัจจุบัน ไฟลามกินช่องสุดท้ายของรูปลูกโดยที่พ่อไม่ทันรู้ตัว จนช่องนั้นหายไปหมด ไฟร้อนถึงมือ พ่อสะดุ้งแล้วรีบดับไฟ มองรูปที่เหลือ 3 ช่องที่สมบูรณ์ น้ำตาไหล</p><p class="info">ตัวละคร: พ่อ · พร็อพ: แผ่นรูปของภูมิสำรองหลายแผ่น น้ำหนึ่งถัง</p></div></div>
+      <div class="scene"><div class="meta"><span class="no">10</span><span class="part">Outro</span></div><div class="body"><span class="slug">ภายใน · ห้องนอนภูมิ · เช้า</span><p>กุญแจหมุนปลดล็อก ประตูเปิด แสงเช้าส่องเข้ามา พ่อยื่นรูป 3 ช่องคืนให้ภูมิ แล้ววางมือถือคืนไว้บนโต๊ะ ภูมิมองรูป แล้วเงยหน้ามองพ่อ พ่อพยักหน้าเบาๆ โดยไม่พูดอะไร</p><p class="info">ตัวละคร: พ่อ, ภูมิ</p></div></div>
+      <div class="scene"><div class="meta"><span class="no">11</span><span class="part">Outro</span></div><div class="body"><span class="slug">ภายนอก · ริมสระน้ำ · พลบค่ำ</span><p>พ่อใส่เสื้อธรรมดา ไม่ใช่ชุดตำรวจ เดินมานั่งที่ม้านั่งตัวเดิม เงาของตัวเองตอนวัยรุ่นค่อยๆ ปรากฏซ้อนอยู่ข้างๆ ทั้งสองหันมามองกัน แล้วยิ้มให้กัน เงานั้นค่อยๆ แตกเป็นฝุ่นลอยขึ้นฟ้า พ่อมองตามขึ้นไปที่ดวงจันทร์</p><p class="info">ตัวละคร: พ่อ, พ่อวัยรุ่น (เงาซ้อน) · ล็อกกล้องบนขาตั้ง ถ่าย 3 เทค</p></div></div>
+      <div class="scene"><div class="meta"><span class="no">12</span><span class="part">จบเพลง</span></div><div class="body"><span class="slug">จอดำ</span><p>ข้อความขึ้นจอ “อย่ารอชาติหน้า ในสิ่งที่ชาตินี้ยังสู้ได้”</p></div></div>
     </div>
   </section>
 
@@ -482,7 +552,7 @@ img{max-width:100%}
       <div><span class="no">05</span><span>เนื้อเพลง</span><span class="st done">มีแล้ว</span></div>
       <div><span class="no">06</span><span>เพลง</span><span class="st done">มีเดโม</span></div>
       <div><span class="no">07</span><span>Plot, Storyline</span><span class="st draft">ร่างแล้ว</span></div>
-      <div><span class="no">08</span><span>Concept Board</span><span class="st todo">ต้องทำภาพ</span></div>
+      <div><span class="no">08</span><span>Concept Board</span><span class="st draft">มีภาพร่าง AI</span></div>
       <div><span class="no">09</span><span>Characters</span><span class="st todo">ต้องถ่ายรูปนักแสดง</span></div>
       <div><span class="no">10</span><span>Mood Board</span><span class="st draft">ร่างแล้ว</span></div>
       <div><span class="no">11</span><span>Storyboard</span><span class="st todo">ต้องวาด</span></div>
